@@ -10,10 +10,8 @@ from django.http import HttpResponse
 from accounts.models import Message
 from accounts.forms import MessageForm, LoginForm
 
-# Create your views here.
-
-
-
+# Request stations from NS reisinformatie API
+# Filter stations for countrycode 'NL'
 headers = {'Ocp-Apim-Subscription-Key': settings.NS_API_KEY,}
 params = urllib.parse.urlencode({})
 conn = http.client.HTTPSConnection('gateway.apiportal.ns.nl')
@@ -22,6 +20,7 @@ response = conn.getresponse()
 data = [i for i in json.loads(response.read().decode('utf-8'))['payload'] if i['land'] == 'NL']
 conn.close()
 
+# Home page, filter stations for connected messages
 def home(request):
     stations = [[i['namen']['lang'], i['UICCode']] for i in data]
     station_count = Message.objects.values('station').annotate(messages=Count('station'))
@@ -30,6 +29,7 @@ def home(request):
     args = {'station_messages': station_messages, 'unreviewed_count': unreviewed_count}
     return render(request, 'index.html', args)
 
+# All stations page, return all stations
 def stations(request):
     p = Paginator([[i['namen']['lang'], i['UICCode']] for i in data], 30)
     stations = p.get_page(request.GET.get('page'))
@@ -39,6 +39,7 @@ def stations(request):
         return render(request, 'partials/stations.html', args)
     return render(request, 'stations.html', args)
 
+# Search query, return queried stations
 def station_search(request):
     if request.method == 'GET':
         q = request.GET.get('q')
@@ -46,15 +47,12 @@ def station_search(request):
         args = {'stations': stations}
         return render(request, 'partials/station_search.html', args)
 
+
 def station(request, id):
     station = [i for i in data if i['UICCode'] == id]
     station_name = station[0]['namen']['lang']
     messages = Message.objects.filter(station=station[0]['UICCode'], approved=True).order_by('-created')
-    # OpenWeatherAPI
-    req = requests.get(f'https://api.openweathermap.org/data/3.0/onecall?lat={station[0]["lat"]}&lon={station[0]["lng"]}&appid=a23ab512a84332d31ac33b0fd3c9fc90&units=metric&lang=NL&exclude=minutely,hourly,daily,alerts')
-    weather = req.json()['current']['weather'][0]['description']
-    temp = round(req.json()['current']['temp'])
-    args = {'station': station, 'station_name': station_name, 'messages': messages, 'weather': weather, 'temp': temp}
+    args = {'station': station, 'station_name': station_name, 'messages': messages}
     return render(request, 'station.html', args)
 
 def station_get_messages(request, id):
