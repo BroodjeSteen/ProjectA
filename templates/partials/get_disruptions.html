@@ -1,0 +1,19 @@
+{% for disruption in disruptions %}
+<div class="carousel-item {% if forloop.first %}active{% endif %}">
+    <div class="card mb-2 me-3" style="min-height: 85px;">
+        <div class="row g-0">
+            <div class="col-md-12">
+                <div class="card-body" style="padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);">
+                    <h5 class="card-title">
+                        <span class="{% if disruption.type == 'DISRUPTION' %}text-danger{% elif disruption.type == 'MAINTENANCE' %}text-warning{% endif %}">{{ disruption.cause }}</span>
+                        {% if disruption.additionalTravelTime %}<span>+{{ disruption.additionalTravelTime }}</span>{% endif %}
+                    </h5>
+                    <p class="card-text text-muted">
+                        {{ disruption.situation }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}

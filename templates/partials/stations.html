@@ -1,0 +1,6 @@
+{% for station in stations %}
+<tr {% if forloop.last %}{% if stations.has_next %}hx-get="{% url 'stations' %}?page={{ stations.next_page_number }}"{% endif %} hx-trigger="revealed" hx-swap="afterend"{% endif %}>
+    <td>{{ station.0}}</td>
+    <td class="text-end"><a href="{% url 'station' station.1 %}">Scherm</a> | <a href="{% url 'station_message' station.1 %}">Zuil</a></td>
+</tr>
+{% endfor %}

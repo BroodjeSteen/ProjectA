@@ -1,0 +1,17 @@
+<div class="row align-items-center justify-content-between">
+    <div class="col-auto mt-4">
+        <h1 class="page-header-title" style="color: #003082;">
+            NS - Stationszuil
+        </h1>
+    </div>
+    <div class="col-auto mt-4 float-end">
+        <div class="dropdown">
+            <button class="btn btn-ns dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ request.user.first_name }} {{ request.user.last_name }}
+            </button>
+            <ul class="dropdown-menu animated--fade-in-up">
+                <li><a class="dropdown-item" href="{% url 'logout' %}">Uitloggen</a></li>
+            </ul>
+        </div>
+    </div>
+</div>

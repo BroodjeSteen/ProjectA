@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        {% include 'bases/base_head.html' %}
+        <title>Moderating</title>
+    </head>
+    <body class="nav-fixed">
+        <main>
+            <header class="page-header page-header-dark pb-10" style="background-color: #ffc917;">
+                <div class="container-xl px-4">
+                    <div class="page-header-content pt-4">
+                        {% include 'bases/base_header.html' %}
+                    </div>
+                </div>
+            </header>
+            <div class="container-xl px-4 mt-n10">
+                <div class="row">
+                    <div class="col-8 col-lg-8 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body h-100 p-5">
+                                <div class="row">
+                                    <div class="col-xl-8 col-xxl-12" hx-get="{% url 'admin_mod_get_message' %}" hx-trigger="load" hx-swap="innerHTML">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4 col-lg-4 mb-4">
+                        <div class="nav-sticky">
+                            <div class="card h-100">
+                                <div class="card-body h-100 p-5">
+                                    <div class="row">
+                                        <div class="col-xl-8 col-xxl-12">
+                                            {% include 'bases/base_nav.html' %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <script src="https://unpkg.com/htmx.org@1.8.2" integrity="sha384-+8ISc/waZcRdXCLxVgbsLzay31nCdyZXQxnsUy++HJzJliTzxKWr0m1cIEMyUzQu" crossorigin="anonymous"></script>
+    </body>
+</html>

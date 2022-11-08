@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        {% include 'bases/base_head.html' %}
+        <title>Home</title>
+    </head>
+    <body class="nav-fixed">
+        <main>
+            <header class="page-header page-header-dark pb-10" style="background-color: #ffc917;">
+                <div class="container-xl px-4">
+                    <div class="page-header-content pt-4">
+                        <div class="row align-items-center justify-content-between">
+                            <div class="col-auto mt-4">
+                                <h1 class="page-header-title" style="color: #003082;">
+                                    NS - Stationszuil
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div class="container-xl px-4 mt-n10">
+                <div class="row">
+                    <div class="col-6 col-lg-8 offset-sm-2 offset-lg-2 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body h-100 p-5">
+                                <div class="row">
+                                    <div class="col-xl-8 col-xxl-12">
+                                        <div class="mb-4 mb-xl-0 mb-xxl-4">
+                                            <form method="post">
+                                                {% csrf_token %}
+                                                <div class="col-8 offset-md-3 offset-lg-2">
+                                                    <h1 class="mb-3" style="color: #003082;">Inloggen</h1>
+                                                    <div class="mb-3">
+                                                        <input type="email" class="form-control" name="username" placeholder="Email">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <input type="password" class="form-control" name="password" placeholder="Wachtwoord">
+                                                    </div>
+                                                    {{ form.non_field_errors }}
+                                                    <button class="btn btn-ns float-end" type="submit">Inloggen</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>

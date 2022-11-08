@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        {% include 'bases/base_head.html' %}
+        <title>{{ station_name }}</title>
+    </head>
+    <body class="nav-fixed">
+        <main>
+            <header class="page-header page-header-dark pb-10" style="background-color: #ffc917;">
+                <div class="container-xl px-4">
+                    <div class="page-header-content pt-4">
+                        <div class="row align-items-center justify-content-between">
+                            <div class="col-auto mt-4">
+                                <h1 class="page-header-title" style="color: #003082;">
+                                    {{ station_name }}
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div class="container-xl px-4 mt-n10">
+                <div class="row">
+                    <div class="col-8 col-lg-12 offset-sm-2 offset-lg-0 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body h-100 p-5">
+                                <div class="row">
+                                    <div class="col-xl-8 col-xxl-12">
+                                        <div class="mb-4 mb-xl-0 mb-xxl-4">
+                                            <h1 class="text-center mb-3" style="color: #003082;">Laat een recentie achter voor dit station</h1>
+                                            <form method="post">
+                                                {% csrf_token %}
+                                                <div class="col-6 offset-md-3">
+                                                    <div class="mb-3">
+                                                        <input type="text" class="form-control" name="name" placeholder="Naam">
+                                                        <div class="text-muted">
+                                                            Laat dit veld leeg om anoniem te blijven
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <textarea class="form-control" name="message" id="validationTextarea" placeholder="Uw bericht..." rows="4" required></textarea>
+                                                        <div class="text-muted">
+                                                            Maximaal 140 tekens
+                                                        </div>
+                                                    </div>
+                                                    {{ form.errors }}
+                                                    <button class="btn btn-ns float-end" type="submit">Verzenden</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>

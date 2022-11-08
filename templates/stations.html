@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        {% include 'bases/base_head.html' %}
+        <script src="https://unpkg.com/htmx.org@1.8.2" integrity="sha384-+8ISc/waZcRdXCLxVgbsLzay31nCdyZXQxnsUy++HJzJliTzxKWr0m1cIEMyUzQu" crossorigin="anonymous"></script>
+        <title>Stations</title>
+    </head>
+    <body class="nav-fixed">
+        <main>
+            <header class="page-header page-header-dark pb-10" style="background-color: #ffc917;">
+                <div class="container-xl px-4">
+                    <div class="page-header-content pt-4">
+                        {% include 'bases/base_header.html' %}
+                    </div>
+                </div>
+            </header>
+            <div class="container-xl px-4 mt-n10">
+                <div class="row">
+                    <div class="col-8 col-lg-8 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body h-100 p-5">
+                                <div class="row">
+                                    <div class="col-xl-8 col-xxl-12">
+                                        <div class="mb-4 mb-xl-0 mb-xxl-4">
+                                            <h1 class="mb-3" style="color: #003082;">Stations</h1>
+                                            <div class="col-8">
+                                                <input class="form-control" type="search" name="q" placeholder="Zoeken..." hx-get="{% url 'station_search' %}" hx-trigger="keyup changed delay:200ms, search" hx-target="#search-results" hx-swap="outerHTML">
+                                            </div>
+
+                                            <table class="table text-nowrap">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Station</th>
+                                                        <th class="text-end">Acties</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="search-results">
+                                                    {% for station in stations %}
+                                                    <tr {% if forloop.last %}hx-get="{% url 'stations' %}?page=2" hx-trigger="revealed" hx-swap="afterend"{% endif %}>
+                                                        <td>{{ station.0}}</td>
+                                                        <td class="text-end"><a href="{% url 'station' station.1 %}">Scherm</a> | <a href="{% url 'station_message' station.1 %}">Zuil</a></td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4 col-lg-4 mb-4">
+                        <div class="nav-sticky">
+                            <div class="card h-100">
+                                <div class="card-body h-100 p-5">
+                                    <div class="row">
+                                        <div class="col-xl-8 col-xxl-12">
+                                            {% include 'bases/base_nav.html' %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>

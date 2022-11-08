@@ -1,0 +1,27 @@
+{% load static %}
+{% for facility in facilities %}
+<div class="col">
+    <div class="card mb-2" style="max-width: 540px;" >
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img width="89" height="60" src="{% if facility.name == 'OV-fiets' %}{% static 'ov-fiets.png' %}{% else %}{{ facility.listLogoImage }}{% endif %}" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body" style="padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x); margin-left: -2rem;">
+                    <h5 class="card-title">{{ facility.name }}</h5>
+                    {% if not facility.open == None and facility.name != 'OV-fiets' %}
+                        <p class="card-text"><small class="text-muted">
+                            <i>{% if facility.open == True %}Open - sluit om {{ facility.nextClosingTime }}{% else %}Gesloten - opent om {{ facility.nextOpeningTime }}{% endif %}</i>
+                        </small></p>
+                    {% elif facility.name == 'OV-fiets' %}
+                        <p class="card-text"><small>
+                            {{ facility.rentalBikes }}
+                        </small></p>
+                    {% else %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}

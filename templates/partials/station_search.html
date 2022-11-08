@@ -1,0 +1,8 @@
+<tbody id="search-results">
+    {% for station in stations %}
+    <tr>
+        <td>{{ station.0}}</td>
+        <td class="text-end"><a href="{% url 'station' station.1 %}">Scherm</a> | <a href="{% url 'station_message' station.1 %}">Zuil</a></td>
+    </tr>
+    {% endfor %}
+</tbody>

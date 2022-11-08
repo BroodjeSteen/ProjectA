@@ -1,0 +1,11 @@
+{% for departure in departures %}
+<li class="list-group-item d-flex justify-content-between align-items-start">
+    <div class="ms-2 me-auto">
+        <div class="fw-bold">{{ departure.direction }}</div>
+        <span {% if departure.plannedTrack == None %}class="text-danger"{% endif %}>{{ departure.longCategoryName }}</span>
+        {% if departure.operatorName != 'NS' %}({{ departure.operatorName }}){% endif %}
+        {% if not departure.plannedTrack == None %} - platform {{ departure.plannedTrack }}{% endif %}
+    </div>
+    <span>{{ departure.plannedDateTime|time:"H:i" }} {% if departure.overTime > 0 %}<span class="text-danger">+{{ departure.overTime }}</span>{% endif %}</span>
+</li>
+{% endfor %}

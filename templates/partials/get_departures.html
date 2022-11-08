@@ -1,0 +1,22 @@
+{% for departure in departures %}
+<div class="card mb-2" style="max-width: 540px; min-height: 85px;" >
+    <div class="row g-0">
+        <div class="col-md-12">
+            <div class="card-body" style="padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);">
+                <h5 class="card-title"><span class="{% if departure.cancelled %}text-muted{% endif %}">{{ departure.direction }}</span> <span class="float-end">{{ departure.plannedDateTime|time:"H:i" }} {% if departure.overTime > 0 %}<span class="text-danger">+{{ departure.overTime }}</span>{% endif %}</span></h5>
+                <p class="card-text text-muted">
+                    {% if not departure.cancelled %}
+                    <span>{% if not departure.plannedTrack == None %}platform {{ departure.plannedTrack }}{% endif %}</span>
+                    <small class="float-end">
+                        <span {% if departure.plannedTrack == None %}class="text-danger"{% endif %}>{{ departure.longCategoryName }}</span>
+                        {% if departure.operatorName != 'NS' %}({{ departure.operatorName }}){% endif %}
+                    </small>
+                    {% else %}
+                    <span class="text-danger">{{ departure.message }}</span>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}

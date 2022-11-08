@@ -1,0 +1,11 @@
+<div class="card-group">
+    {% for hour in forecast %}
+    <div class="card shadow-none bg-transparent" style="min-width: 87px; border-color: #003082; color: #003082;">
+        <div class="card-body text-center">
+            <h5 class="card-title" style="color: #003082;">{{ hour.temp }}°C</h5>
+            <img width="30" height="30" src="{{ hour.icon }}">
+            <p class="card-text"><small style="color: #003082;">{{ hour.dt|time:"H:i" }}</small></p>
+        </div>
+    </div>
+    {% endfor %}
+</div>

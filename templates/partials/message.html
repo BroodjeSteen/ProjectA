@@ -1,0 +1,15 @@
+<div id="message-box" class="mb-4 mb-xl-0 mb-xxl-4">
+    <h1 class="mb-3" style="color: #003082;">Bericht</h1>
+    <p>Station: {{ station_name }}</p>
+    <p>Bericht: {{ message.message }}</p>
+    <form method="post" id="approve-form">
+        {% csrf_token %}
+        <input type="hidden" name="approval" value="1">
+        <button class="btn btn-ns float-end" form="approve-form" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' {% if message != None %}hx-post="{% url 'admin_mod' message.pk %}"{% endif %} hx-target="#message-box" hx-swap="outerHTML">Goedkeuren</button>
+    </form>
+    <form method="post" id="approve-form">
+        {% csrf_token %}
+        <input type="hidden" name="approval" value="0">
+        <button class="btn btn-ns float-end me-1" form="approve-form" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' {% if message %}hx-post="{% url 'admin_mod' message.pk %}"{% endif %} hx-target="#message-box" hx-swap="outerHTML">Afkeuren</button>
+    </form>
+</div>

@@ -1,0 +1,133 @@
+{% load static %}
+{% load index %}
+{% load tz %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        {% include 'bases/base_head.html' %}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.min.js"></script>
+        <title>{{ station_name }}</title>
+    </head>
+    <body>
+        <main>
+            <header class="page-header page-header-dark pb-10" style="background-color: #ffc917;">
+                <div class="container-xl px-4">
+                    <div class="page-header-content pt-4">
+                        <div class="row align-items-center justify-content-between">
+                            <div class="col-auto mt-4">
+                                <h1 class="page-header-title" style="color: #003082;">
+                                    <div id="sketch-container"></div>
+                                    {{ station_name }}
+
+                                </h1>
+                            </div>
+                            <div class="col-auto mt-4 float-end">
+                                <div class="row" hx-get="{% url 'station_get_forecast' station.0.UICCode %}" hx-trigger="load, every 60s" hx-swap="innerHTML">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div class="container-xl px-4 mt-n10">
+{#                <div class="row">#}
+{#                    <div class="col-12 col-lg-12 mb-4">#}
+{#                        <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">#}
+{#                            <div class="carousel-inner" hx-get="{% url 'station_get_disruptions' station.0.UICCode %}" hx-trigger="load" hx-swap="innerHTML">#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+                <div class="row">
+                    <div class="col-8 col-lg-8 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body h-100 p-5">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="mb-4 mb-xl-0 mb-xxl-4">
+                                            <h1 class="mb-3" style="color: #003082;">Recente opmerkingen over dit station</h1>
+                                            <ol class="list-group" hx-get="{% url 'station_get_messages' station.0.UICCode %}" hx-trigger="load, every 5s" hx-swap="innerHTML">
+
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4 col-lg-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body h-100 p-5">
+                                <div class="row">
+                                    <div class="col-xl-8 col-xxl-12">
+                                        <div class="mb-4 mb-xl-0 mb-xxl-4">
+                                            <h1 class="mb-3" style="color: #003082;">Vertrektijden</h1>
+                                            <ol class="list-group" hx-get="{% url 'station_get_departures' station.0.UICCode %}" hx-trigger="load, every 10s" hx-swap="innerHTML">
+                                                <span id="departures_indicator">Loading departures...</span>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h1 class="mb-3" style="color: #003082;">Voorzieningen</h1>
+                <div class="row row-cols-1 row-cols-md-4 g-4" hx-get="{% url 'station_get_facilities' station.0.UICCode %}" hx-trigger="load, every 30s" hx-swap="innerHTML"></div>
+            </div>
+        </main>
+        <script src="https://unpkg.com/htmx.org@1.8.2" integrity="sha384-+8ISc/waZcRdXCLxVgbsLzay31nCdyZXQxnsUy++HJzJliTzxKWr0m1cIEMyUzQu" crossorigin="anonymous"></script>
+        <script>
+            function setup() {
+                let canvas = createCanvas(125, 125);
+                canvas.parent('sketch-container');
+                stroke(255);
+
+                let radius = min(width, height) / 2;
+                secondsRadius = radius * 0.71;
+                minutesRadius = radius * 0.6;
+                hoursRadius = radius * 0.5;
+                clockDiameter = radius * 1.7;
+
+                cx = width / 2;
+                cy = height / 2;
+            }
+
+            function draw() {
+
+                // Draw the clock background
+                noStroke();
+                fill(255,201,23)
+                ellipse(cx, cy, clockDiameter, clockDiameter);
+
+                // Angles for sin() and cos() start at 3 o'clock;
+                // subtract HALF_PI to make them start at the top
+                let s = map(second(), 0, 60, 0, TWO_PI) - HALF_PI;
+                let m = map(minute() + norm(second(), 0, 60), 0, 60, 0, TWO_PI) - HALF_PI;
+                let h = map(hour() + norm(minute(), 0, 60), 0, 24, 0, TWO_PI * 2) - HALF_PI;
+
+                // Draw the hands of the clock
+                stroke(0,48,130);
+                strokeWeight(1);
+                line(cx, cy, cx + cos(s) * secondsRadius, cy + sin(s) * secondsRadius);
+                strokeWeight(2);
+                line(cx, cy, cx + cos(m) * minutesRadius, cy + sin(m) * minutesRadius);
+                strokeWeight(4);
+                line(cx, cy, cx + cos(h) * hoursRadius, cy + sin(h) * hoursRadius);
+
+                // Draw the minute ticks
+                strokeWeight(4);
+                beginShape(POINTS);
+                for (let a = 0; a < 360; a += 15) {
+                let angle = radians(a);
+                let x = cx + cos(angle) * secondsRadius;
+                let y = cy + sin(angle) * secondsRadius;
+                vertex(x, y);
+                }
+                endShape();
+            }
+        </script>
+
+    </body>
+</html>

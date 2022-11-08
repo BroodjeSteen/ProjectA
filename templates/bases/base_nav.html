@@ -1,0 +1,13 @@
+<div class="mb-4 mb-xl-0 mb-xxl-4">
+    <h1 class="mb-3" style="color: #003082;">Stations</h1>
+    <ul>
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'stations' %}">Alle stations</a></li>
+    </ul>
+    <h1 class="mb-3" style="color: #003082;">Moderating</h1>
+    <ul>
+        <li><a href="{% url 'admin_mod' %}">{{ unreviewed_count }} {% if unreviewed_count == 1 %}bericht{% else %}berichten{% endif %}</a> te beoordelen</li>
+        <li><a href="{% url 'admin' %}">Alle recenties</a></li>
+        <li><a href="#">Statistieken</a></li>
+    </ul>
+</div>

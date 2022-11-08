@@ -1,0 +1,24 @@
+{% now "Y-m-d" as todays_date %}
+{% for message in messages %}
+<div class="card mb-2" style="min-height: 85px;" >
+    <div class="row g-0">
+        <div class="col-md-12">
+            <div class="card-body" style="padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);">
+                <h5 class="card-title">
+                    {{ message.name }}
+                    {% if todays_date == message.created|date:"Y-m-d" %}
+                    <i class="text-muted">- {{ message.created|time:"H:i" }}</i>
+                    {% else %}
+                    <i class="text-muted">- {{ message.created|date:"j F" }}</i>
+                    {% endif %}
+                </h5>
+                <p class="card-text">
+                    {{ message.message }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% empty %}
+Nog geen berichten geplaatst
+{% endfor %}
